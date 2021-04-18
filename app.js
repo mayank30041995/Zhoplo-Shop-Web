@@ -25,6 +25,7 @@ app.use(`${api}/categories`, categoriesRoutes);
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
     dbName: 'zhoplo'
 })
 .then(()=>{
