@@ -26,8 +26,12 @@ router.post("/", async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-
-    const productList = await Product.find();
+    let filter ={};
+    if(req.query.categories)
+    {
+        filter = { category: req.query.categories.split(',')}
+    }
+    const productList = await Product.find(filter).populate('category');
     if(!productList) {
         res.status(500).status({success: false})
     }
@@ -35,7 +39,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) =>{
-    const product= await Product.findById(req.params.id);
+    const product= await Product.findById(req.params.id).populate('category');
 
     if(!product) {
         res.status(500).json({status: false})
