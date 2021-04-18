@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
-require('dotenv/config')
+require('dotenv/config');
  
 app.use(cors());
 app.options('*', cors())
@@ -11,13 +11,15 @@ app.options('*', cors())
 
 //middleware
 app.use(express.json());
-app.use(morgan('tiny'))
+app.use(morgan('tiny'));
 
 
 //Routes
-
+const categoriesRoutes = require('./routes/categories');
 
 const api = process.env.API_URL;
+
+app.use(`${api}/categories`, categoriesRoutes);
 
 //Database
 mongoose.connect(process.env.CONNECTION_STRING, {
