@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
+
     const productList = await Product.find();
     if(!productList) {
         res.status(500).status({success: false})
@@ -51,7 +52,6 @@ router.put('/:id', async (req, res) => {
         {
             name: req.body.name,
             description: req.body.description,
-            richDescription: req.body.richDescription,
             image: req.body.image,
             brand: req.body.brand,
             price: req.body.price,
@@ -80,6 +80,27 @@ router.delete('/:id', (req, res)=> {
     }).catch(err=>{
         return res.status(500).json({success: false, error:err})
     })
+})
+
+router.get('/get/count', async (req, res) => {
+    const productCount = await Product.countDocuments((count) => count)
+    
+    if(!productCount) {
+        res.status(500).json({success: false})
+    }
+    res.send({
+        productCount: productCount
+    })
+})
+
+router.get('/get/featured/:count', async (req,res) =>{
+    const count = req.params.count ? req.params.count : 0
+    const products = await Product.find({isFeatured: true}).limit(+count);
+
+    if(!products) {
+        res.status(500).json({success: false})
+    }
+    res.send(products);
 })
 
 
