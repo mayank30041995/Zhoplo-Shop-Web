@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const categorySchema = mongoose.Schema({
+const orderItemsSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -14,10 +14,10 @@ const categorySchema = mongoose.Schema({
 })
 
 
-categorySchema.method('toJSON', function(){
+orderItemsSchema.method('toJSON', function(){
     const { __v, ...object } = this.toObject();
     const { _id:id, ...result } = object;
     return { ...result, id };
 });
 
-exports.Category = mongoose.model('Category', categorySchema);
+exports.orderItems = mongoose.model('orderItems', orderItemsSchema);

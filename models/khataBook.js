@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const khataBookSchema = new mongoose.Schema({
     houseNumber: {
         type: String,
         required: true,
@@ -41,6 +41,20 @@ const userSchema = new mongoose.Schema({
             max: 100
         },
     },
+    items: [
+        {
+          _id: false,
+          item: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "Product",
+          },
+          quantity: {
+            type: String,
+            required: true,
+          },
+        },
+      ],
     isAvailable:{
         type: Boolean,
         default: false

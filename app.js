@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 const cors = require('cors');
 require('dotenv/config')
  
@@ -10,21 +11,19 @@ app.options('*', cors())
 
 //middleware
 app.use(express.json());
+app.use(morgan('tiny'))
 
 
 //Routes
-const usersRoutes = require('./routes/users');
+
 
 const api = process.env.API_URL;
-
-
-app.use(`${api}/users`, usersRoutes);
 
 //Database
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'eshop-database'
+    dbName: 'zhoplo'
 })
 .then(()=>{
     console.log('Database Connection is ready...')

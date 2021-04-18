@@ -1,27 +1,25 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const categorySchema = mongoose.Schema({
-    name: {
+const cartSchema = new Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  items: [
+    {
+      _id: false,
+      item: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'product',
+      },
+      quantity: {
         type: String,
         required: true,
+      },
     },
-    products: {
-        type: String,
-    },
-    quantity: { 
-        type: String,
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    },
-})
-
-
-categorySchema.method('toJSON', function(){
-    const { __v, ...object } = this.toObject();
-    const { _id:id, ...result } = object;
-    return { ...result, id };
+  ],
 });
-
-exports.Category = mongoose.model('Category', categorySchema);
+const Cart = mongoose.model('cart', cartSchema);
+module.exports = Cart;
