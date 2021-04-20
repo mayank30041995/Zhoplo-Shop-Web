@@ -33,13 +33,11 @@ const khataBookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    itemsCount:{
-        countInStock: {
-            type: Number,
-            required: true,
-            min: 0,
-            max: 100
-        },
+    itemsCount:{ 
+        type: Number,
+        required: true,
+        min: 0,
+        max: 100
     },
     items: [
         {
