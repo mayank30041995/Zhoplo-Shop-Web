@@ -4,16 +4,16 @@ const {OrderItem} = require('../models/order-item');
 const router= express.Router();
 
 router.post('/', async (req, res) => {
-    const orderItemsIds = req.body.orderItems.map(async (orderItem) => {
+    const orderItemsIds = Promise.all(req.body.orderItems.map(async (orderItem) => {
         let newOrderItem = new OrderItem({
             quantity: orderItem.quantity,
             product: orderItem.product
         })
         newOrderItem = await newOrderItem.save();
-
+   
         return newOrderItem._id;
-    })
-    const orderItemsIdsResolved = await orderItemsIds;
+    }))
+        const orderItemsIdsResolved = await orderItemsIds;
 
     let order = new Order({
         orderItems: orderItemsIdsResolved,
@@ -28,8 +28,7 @@ router.post('/', async (req, res) => {
         user: req.body.user,
 
     })
-    console.log(order)
-
+    order= await order.save();
     if(!order)
     return res.status(400).send('the order cannot be created!')
     
